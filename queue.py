@@ -14,15 +14,15 @@ def myprint(d):
 def create_df(c, q):
 	lock.acquire()
 	t0 = time.time()
-	r = [i for i in xrange(10000)]
+	r = [i for i in xrange(100000)]
 	t1 = time.time()
 	print(t1-t0)
-
-
 	d = {}
 	d[c] = r
 	q.put(d)
 	lock.release()
+	print('released lock')
+	sys.exit()
 
 	# t2 = time.time()
 	# print('add {0} to Queue {1}'.format(c, t2-t1))
@@ -36,16 +36,14 @@ if __name__ == '__main__':
 	# name = 'cathy'
 	# p2 = multiprocessing.Process(target=create_df, args=(name, q, ))
 
+	p1.start()
 	print('starting p1')
 	try:
-		p1.start()
-		p1.join()
+		# p1.join()
+		print(' joined p1')
 	except:
 		print('something went wrong')
 		sys.exit()
-
-	# p2.start()
-	# p2.join()
 
 	print('all processes complete')
 
@@ -59,7 +57,4 @@ if __name__ == '__main__':
 		# print('time to update {0}, : {1}'.format(counter, t1-t0))
 		print('done')
 
-	# myprint(d)
-
-
-
+	print('finished !')
