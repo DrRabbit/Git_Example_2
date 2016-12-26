@@ -3,7 +3,7 @@ import pickle
 import time
 
 
-def create_df(c, q):
+def create_df(c):
 
 	array = [i for i in range(5000000)]
 	# print('array created')
@@ -27,9 +27,9 @@ if __name__ == '__main__':
 	q = multiprocessing.Queue()
 
 	nm = 'alex'
-	p1 = multiprocessing.Process(target=create_df, args=(nm, q))
+	p1 = multiprocessing.Process(target=create_df, args=(nm, ))
 	nm = 'cathy'
-	p2 = multiprocessing.Process(target=create_df, args=(nm, q))
+	p2 = multiprocessing.Process(target=create_df, args=(nm, ))
 
 	print('starting p1')
 	p1.start()
@@ -45,17 +45,24 @@ if __name__ == '__main__':
 	path = 'C:\\Users\\Alex\\PycharmProjects\\Git_Example_2\\{}.pickle'.format('alex')
 	t0 = time.time()
 	with open(path, 'rb') as handle2:
-		data = pickle.load(handle2)
+		data1 = pickle.load(handle2)
 	t1 = time.time()
 	print('{0} UNpickled in {1}'.format('alex', t1-t0))
 
 	path = 'C:\\Users\\Alex\\PycharmProjects\\Git_Example_2\\{}.pickle'.format('cathy')
 	t0 = time.time()
 	with open(path, 'rb') as handle2:
-		data = pickle.load(handle2)
+		data2 = pickle.load(handle2)
 	t1 = time.time()
 	print('{0} UNpickled in {1} \n'.format('cathy', t1-t0))
 
+	data = {}
+	data.update(data1)
+	data.update(data2)
+
+	print('keys are:')
+	for key in data.keys():
+		print '\t{0}'.format(key)
 
 	'''
 	for d in data.iteritems():
