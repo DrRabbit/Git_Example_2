@@ -10,7 +10,8 @@ from os import getpid
 
 
 def counter(d):
-	r = [i for i in range(5000000)]
+	# r = (i for i in range(1000000))
+	r = [i for i in range(1000000)]
 	d[mp.current_process().name] = r
 	# d[getpid()] = r
 
@@ -27,7 +28,7 @@ if __name__ == '__main__':
 			pro.join()
 
 		for key in d.keys():
-			print key, d[key][-10:]
+			print key, # d[key][-10:]
 
 		x = 1
 		print('finished')

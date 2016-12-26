@@ -1,28 +1,23 @@
-from threading import Thread
 import time
-from multiprocessing import Process
+import memory_profiler
 
 
-def print_time(threadName, v):
-    t1 = time.time()
-    count = 0
-    while count < v:
-        count += 1
+print('before memory usage: {}'.format(memory_profiler.memory_usage()))
+t0 = time.time()
+gen = [i for i in xrange(10000000)]
+t1 = time.time()
+print('create the gen {}'.format(t1-t0))
+
 t2 = time.time()
-    print('finished', threadName, count, t2 - t1)
+mySum = 0
+for g in gen:
+	mySum += g
+t3 = time.time()
+print('loop through list {}'.format(t3 - t2))
+
+print('sum = {}'.format(mySum))
+
+print('total time {}'.format(t3-t0))
+print('AFTER memory usage: {}'.format(memory_profiler.memory_usage()))
 
 
-if __name__ == '__main__':
-
-    t1 = time.time()
-
-    pro = []
-    for i in range(7):
-        pro.append(Process(target=print_time, args=(str(i + 1), 1000000, )))
-        pro[i].start()
-
-    for p in pro:
-        p.join()
-
-    t2 = time.time()
-    print(t2 - t1)
